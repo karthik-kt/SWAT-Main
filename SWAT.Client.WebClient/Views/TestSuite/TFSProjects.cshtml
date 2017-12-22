@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "TFSProjects";
+}
+@using SWAT.Client.WebClient.Models
+@using Newtonsoft.Json;
+@using Microsoft.TeamFoundation.TestManagement.WebApi;
+@model SWAT.Client.WebClient.Models.TFSProjectResults
+
+<script src="@Url.Content("~/Scripts/jquery-2.js")" type="text/javascript"></script>
+@*<script src="@Url.Content("~/Scripts/tree.jquery.js")" type="text/javascript"></script>*@
+<style src="@Url.Content("~/Scripts/jqtree.css")" type="text/css"></style>
+<link rel="stylesheet" href="http://static.jstree.com/3.0.0-beta5/assets/bootstrap/css/bootstrap.css" />
+@*<link href="@Url.Content("~/Content/jsTree/docs.css")" rel="stylesheet" />*@
+<link href="@Url.Content("~/Content/jsTree/themes/default/style.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jsTree3/jstree.js")"></script>
+<link href="@Url.Content("~/Content/jquery.dynatable.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery.dynatable.js")"></script>
+
+<script type="text/javascript">  
+
+    function showTestPlan(_selectedProject) {
+        if (_selectedProject == "") return;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("TFSTestPlan", "TestSuite")',
+            data: { selectedProject: _selectedProject },
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: postProcessingTestPlan,
+            async: true 
+        })
+    }
+
+    function postProcessingTestPlan(testplans) {
+        var $test = $('#testplans');
+        $test.empty();
+        $test.append('<option value="none"> Selecte Test Plan </option>')
+        $.each(testplans,function(index,testplan){
+            $test.append('<option value="'+testplan.Id+'">'+ testplan.Name+'</option>')
+        });
+    }
+
+    function showTestSuite(_selectedTestPlanId) {
+        var _selectedProject = $("#tfsprojects").val();
+        if (_selectedTestPlanId == "") return;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("TFSTestSuite", "TestSuite")',
+            data: { selectedProject: _selectedProject, selectedTestPlanId: _selectedTestPlanId },
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: postProcessingTestSuite,
+            async: true
+        })
+    }
+
+    function postProcessingTestSuite(testSuites) {
+        testSuites = testSuites.map(function (suite) {
+            suite.id = suite.Id;
+            if (suite.TestCaseCount == 0)
+            {
+                suite.text = suite.Name;
+            }
+            else
+            {
+                suite.text = suite.Name + "(" + suite.TestCaseCount + ")";
+            }            
+            if (suite.Parent == null){
+                suite.parent = '#';
+            }
+            else {
+                suite.parent = suite.Parent.Id;
+            }            
+            return suite;
+        });
+        $("#testsuites").jstree("destroy");
+        $("#testsuites").jstree({
+            'core': {
+                'data': testSuites
+            }
+        });
+
+        $('#testsuites')
+          .on('changed.jstree', function (e, data) {
+              var _selectedProject = $("#tfsprojects").val();
+              var _selectedTestPlanId = $("#testplans").val();
+              var _selectedTestSuite = data.node.id;
+              $.ajax({
+                  type: 'GET',
+                  url: '@Url.Action("TFSTestResult", "TestSuite")',
+                  data: { selectedProject: _selectedProject, selectedTestPlanId: _selectedTestPlanId, testSuite: _selectedTestSuite },
+                  dataType: 'json',
+                  contentType: 'application/json',
+                  cache: false,
+                  success: postProcessingTestCases,
+                  async: true
+              })
+
+          }).jstree();
+    }
+
+    function postProcessingTestCases(_testCases) {
+
+        var objs = JSON.parse(_testCases);
+       
+        for (var i in objs.value)
+        {
+            objs.value[i].testCaseName = objs.value[i].workItemProperties[0].workItem.value;
+            objs.value[i].testCaseId = objs.value[i].workItemProperties[1].workItem.value;
+        }
+
+        //var dynatable = $('#event_result').data(
+        //   'dynatable',
+        //   {
+        //       features: {
+        //           paginate: false,
+        //           sort: false,
+        //           search: false,
+        //           recordCount: false,
+        //           perPageSelect: false,
+        //       },
+        //       dataset: {
+        //           records: []
+        //       }
+        //   });
+        //dynatable.settings.dataset.records = objs.value;
+        //dynatable.process();
+
+        var $test = $('#event_result');
+        var dynatable = $test.dynatable({
+            dataset: {
+                records: objs.value,
+                perPageDefault: 20,
+            },
+            features: {
+            paginate: true,
+            search: false,
+            recordCount: false,
+            perPageSelect: false
+        }
+        });
+    }
+
+    function openBrowser()
+    {
+        var browser = $("#selectBrowser option:selected").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("OpenBrowser", "TestSuite")',
+            data:{"browser": browser}, 
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: function (data) { },
+            async: true
+        })
+    }
+</script>
+
+<div class="row myelement">
+    <div class="col-md-4 panel panel-default myelement">
+        <div class="form-inline">
+            <select class="form-control myelement" id="selectBrowser">
+                <option value="0">Firefox</option>
+                <option value="1">Chrome</option>
+                <option value="2">Internet Explorer</option>
+            </select>
+            <button class="form-control button button-default myelement" id="openBrowser" onclick="openBrowser()"> Launch Browser
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="tfsprojects">Projects</label>
+            <select class="form-control myelement" id="tfsprojects" onchange="showTestPlan(this.value)">
+                <option value="">Select a Project</option>
+                @foreach (var p in Model.value)
+                {
+                    <option value="@p.name">@p.name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="testplans">Test Plans</label>
+            <select class="form-control myelement" id="testplans" onchange="showTestSuite(this.value)">
+                <option value="">Selecte Test Plan</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="testsuites">Test Suites</label>
+            <div id="testsuites" class="maxHeight overflowAuto">Please select test plan first</div>
+        </div>
+    </div>
+
+    <div class="col-md-7 panel panel-default myelement">
+        <table class="table table-condensed" id="event_result">
+            <thead>
+                <tr>
+                    <th>TestCaseId</th>
+                    <th>TestCaseName</th>
+                    <th>Outcome</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>

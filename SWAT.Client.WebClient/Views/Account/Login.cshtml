@@ -1,0 +1,168 @@
+﻿@using SWAT.Client.WebClient.Models
+@model LoginModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Sign in";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>@ViewBag.Title - Coyote</title>
+
+    <meta name="description" content="Sign in to Coyote's web app.">
+    <meta name="author" content="Coyote Logistics">
+
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="shortcut icon" href="@Url.Content("~/Content/favicon.ico")">
+
+    <link href="@System.Configuration.ConfigurationManager.AppSettings["StylesheetUrl"]" rel="stylesheet" />
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/jquery-2.2.3.js"></script>
+    @*<link href="~/Content/coyote.claw.min.css" rel="stylesheet" />*@
+
+    <style>
+        /* Necessary to hide specific error messages */
+        .validation-summary-errors ul {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app-container" class="box--gray-extra-light">
+        <header id="main-header" class="box--brand-green box--border-bottom">
+            <div class="page-wrapper-new">
+                <span class="fl soft-half hard--left nudge--right">
+                    <svg id="header-logo" class="fill-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1707 1024">
+                        <path d="M1706.667 810.667l-810.667-810.667v426.667h-896l213.333 213.333h810.667v-213.333l426.667 384h-768l170.667 213.333h640l213.333-213.333z"></path>
+                    </svg>
+                </span>
+            </div>
+        </header>
+        <div id="main" role="main">
+            <div class="page-wrapper-new">
+                <div class="text-center nudge-double--ends">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 38" height="30">
+                        <path d="M176.259 6.2 L187.338 6.2 L187.338 11.1 L176.259 11.1 L176.259 6.2 Z" />
+                        <path d="M176.259 18.4 L186.459 18.4 L186.459 23.3 L176.259 23.3 L176.259 18.4 Z" />
+                        <path d="M176.259 31.5 L187.799 31.5 L187.799 36.6 L176.259 36.6 L176.259 31.5 Z" />
+                        <path d="M166.993 6.2 L173.496 6.2 L173.496 36.6 L166.993 36.6 L166.993 6.2 Z" />
+                        <path d="M134.336 6.2 L158.968 6.2 L158.968 11.2 L134.336 11.2 L134.336 6.2 Z" />
+                        <path d="M143.376 14 L149.937 14 L149.937 36.6 L143.376 36.6 L143.376 14 Z" />
+                        <path d="M105.998 20.4 C106.111 17.4 106.7 14.6 108.2 12.8 C109.416 11.2 111.4 10.2 113.8 10.2 C116.9 10.2 119.5 11.8 120.7 15.6 C121.271 17.2 121.4 19 121.5 20.4 L128.268 20.4 C128.172 17.4 127.4 13.1 124.4 9.7 C121.438 6.3 117 5.5 113.7 5.5 C103.466 5.5 99.6 12.8 99.2 20.4 L105.998 20.4" />
+                        <path d="M121.39 23.1 C121.132 26.6 120.3 28.4 119.4 29.7 C118.199 31.6 116.4 32.5 113.7 32.5 C110.722 32.5 109.2 31.3 108.2 30.1 C106.746 28.1 106.2 25.6 106 23.1 L99.202 23.1 C99.351 26 100.1 30.1 102.9 33.1 C105.68 36.1 109.7 37.3 113.7 37.3 C116.186 37.3 121.1 36.8 124.5 33 C126.563 30.6 127.8 26.9 128.2 23.1 L121.39 23.1" />
+                        <path d="M40.106 20.3 C40.228 17.3 40.8 14.6 42.3 12.8 C43.52 11.2 45.5 10.2 47.9 10.2 C51.003 10.2 53.6 11.8 54.8 15.6 C55.357 17.1 55.5 18.9 55.6 20.3 L62.367 20.3 C62.256 17.3 61.5 13 58.5 9.7 C55.54 6.3 51.1 5.5 47.9 5.5 C37.622 5.5 33.8 12.7 33.3 20.3 L40.106 20.3" />
+                        <path d="M55.507 23 C55.253 26.5 54.4 28.4 53.5 29.7 C52.304 31.6 50.5 32.5 47.9 32.5 C44.821 32.5 43.3 31.3 42.3 30.1 C40.83 28.1 40.3 25.5 40.1 23 L33.294 23 C33.427 25.9 34.1 30.1 37 33.1 C39.78 36.1 43.8 37.3 47.8 37.3 C50.286 37.3 55.2 36.8 58.6 33 C60.682 30.6 62 26.8 62.3 23 L55.507 23" />
+                        <path d="M14.9 10.8 C18.52 11.4 18.9 15.1 19 16.1 L25.657 16.1 C25.657 10.2 21.2 6.2 14.9 6 L14.9 10.8" />
+                        <path d="M12.139 32.3 C7.268 31.1 7.3 23.7 7.3 22 C7.251 16.7 8.7 12.3 12.1 11.1 L12.139 6.2 C4.905 7.2 0.4 13.3 0.4 22 C0.442 29 3.4 36.1 12.1 37.1 L12.139 32.3" />
+                        <path d="M19.059 26.7 C18.952 30.1 17.1 31.8 14.9 32.3 L14.9 37.2 C17.557 37.2 20.7 36.4 23.2 33.9 C25.619 31.3 25.8 28.5 25.9 26.7 L19.059 26.7" />
+                        <path d="M79.114 16.8 L74.367 6.3 L66.759 6.3 L76.001 23.5 L79.114 16.8" />
+                        <path d="M87.02 6.3 L80.633 20.1 L80.623 20.1 L77.019 27.9 L77.019 36.6 L83.445 36.6 L83.445 25.5 L93.7 6.3 L87.02 6.3" />
+                        <path d="M259.594 29.6 L230.534 0.5 L230.536 15.4 L197.676 15.4 L204.75 22.4 L235.402 22.4 L235.402 15.4 L249.547 29.5 L221.842 29.5 L228.915 36.6 L252.553 36.6 L259.594 29.6" />
+                    </svg>
+                    <div class="mega nudge--top weight--light text-black hide-on-unsupported">
+                        Zone of Action
+                    </div>
+                </div>
+                <div class="no-js--alert text-center nudge-double--ends">
+                    <p class="gamma alert alert--error inline-block">
+                        This application requires JavaScript, but it is currently disabled or not supported on your browser.
+                    </p>
+                </div>
+                <div class="grid grid--align-center hide-on-unsupported">
+                    <div class="grid__cell one-whole lap-six-tenths desk-one-third">
+                        <div class="panel">
+                            <div class="panel__heading">
+                                <div class="panel__title">
+                                    Sign in
+                                </div>
+                            </div>
+                            <div class="panel__body">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <p class="authorization-summary-errors alert alert--error text-center">
+                                        You are currenty logged in as @User.Identity.Name, but you requested a resource that you were not authorized for. Either provide credentials that do have access or contact your administrator to grant you access.
+                                    </p>
+                                }
+                                @using (Html.BeginForm())
+                                {
+
+                                    <ul class="form-fields nudge--bottom">
+                                        <li class="cf">
+                                            <label for="UserName" class="label block">Username</label>
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "text-input one-whole", @id = "UserName", @autofocus = "autofocus", @placeholder = "john.smith", @tabindex = "1" })
+                                        </li>
+                                        <li class="cf">
+                                            <label for="Password" class="label block">Password</label>
+                                            @Html.PasswordFor(m => m.Password, new { @class = "text-input one-whole", @id = "Password", @tabindex = "2" })
+                                        </li>
+                                        <li class="cf">
+                                            <button type="submit" id="saveForm" class="button button--loud one-whole" tabindex="4">Sign in</button>
+                                        </li>
+                                    </ul>
+
+                                    @Html.ValidationSummary(true, "The username or password you entered is incorrect.", new { @class = "alert alert--error text-center" })
+
+                                    if ((ViewBag.ShowClientCertificateLink != null) && (ViewBag.ShowClientCertificateLink))
+                                    {
+                                        @Html.ActionLink("Use client certificate", "CertificateSignIn", new { returnUrl = ViewBag.ReturnUrl })
+                                    }
+                                }
+                                @*<p>
+                                    <a href="@System.Configuration.ConfigurationManager.AppSettings["ForgotPasswordUrl"]">Forgot your password?</a>
+                                </p>*@
+
+                                <p class="flush">
+                                    To request an account, please contact your Coyote rep or call <a href="tel:1-877-626-9683">(877) 6-COYOTE</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="soft text-center show-on-unsupported hidden">
+                    <h3 class="landmark--large">Coyote's web application works on the latest versions of<br /><a href="https://www.google.com/chrome" title="Download Chrome.">Chrome</a>, <a href="http://www.mozilla.org/en-US/firefox/new/" title="Download Firefox.">Firefox</a>, and <a href="http://windows.microsoft.com/en-US/internet-explorer/download-ie" title="Can we convince you to download one of the other browsers? No... Ok, download Internet Explorer.">Internet Explorer</a>.</h3>
+                    <p id="override-trigger">I'll take my chances and <a href="#" title="Sign in anyway">sign in</a>.</p>
+                    <p>If you need further support please contact your Coyote Rep.</p>
+                </div>
+            </div>
+        </div>
+        <footer id="main-footer" class="text-center">
+            <small>
+                Copyright &copy; @DateTime.Today.Year Coyote. All rights reserved.
+                <a href="http://coyote.com/terms#website-terms-of-use" target="_blank" class="nudge-half--left">Terms of Use</a>
+                <a href="http://coyote.com/terms#privacy-policy" target="_blank" class="nudge-half--left">Privacy Policy</a>
+                <a href="http://classic.coyote.com" class="nudge-half--left" target="_blank">Coyote Classic</a>
+            </small>
+        </footer>
+    </div>
+    <script>
+
+        function initLogin() {
+            $('.hide-on-unsupported').removeClass('hidden');
+        };
+
+        $(function () {
+            if (Modernizr.hashchange && Modernizr.generatedcontent && Modernizr.svg) {
+                $('html').addClass('supported');
+            } else {
+                $('html').addClass('unsupported');
+                $('.hide-on-unsupported').addClass('hidden');
+                $('.show-on-unsupported').removeClass('hidden');
+                $('#override-trigger a').on('click', function () {
+                    initLogin();
+                    $('.show-on-unsupported').addClass('hidden');
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

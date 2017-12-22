@@ -1,0 +1,32 @@
+﻿
+.body {
+    display: table;
+}
+
+.left-side {
+    float: none;
+    display: table-cell;
+}
+
+.right-side {
+    float: none;
+    display: table-cell;
+}
+
+.myelement{
+        margin-top: 15px;
+        margin-left: 20px;
+        margin-bottom: 15px;
+}
+
+.overflowAuto {
+    overflow:auto;
+}
+
+.marginTop_5 {
+    margin-top:5%;
+}
+
+.maxHeight {
+max-height: 475px;
+}

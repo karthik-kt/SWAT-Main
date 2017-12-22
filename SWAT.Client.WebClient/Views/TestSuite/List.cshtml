@@ -1,0 +1,175 @@
+﻿@*@model IEnumerable<SWAT.Domain.Entities.TestSuite>*@
+
+@model SWAT.Client.WebClient.Models.TestSuiteListViewModel
+
+@{
+    ViewBag.Title = "TestSuites";
+    
+}
+
+@using SWAT.Client.WebClient.HtmlHelpers
+
+<script src="@Url.Content("/Scripts/jquery-2.js")" type="text/javascript"></script>
+<style src="@Url.Content("~/Scripts/jqtree.css")" type="text/css"></style>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(
+    function () {
+        $('.testsuite').click(function () {
+            var ul = document.createElement('ul');
+            ul.setAttribute('id', 'proList');
+            var t, tt;
+            testsuiteList = ['TestSuite1', 'TestSuite1', 'TestSuite1', 'TestSuite1'];
+            document.getElementById('renderList').appendChild(ul);
+            testsuiteList.forEach(rendertestsuiteList);
+            function rendertestsuiteList(element, index, arr) {
+                var alink = document.createElement('a');
+                alink.setAttribute('class', 'test1');
+                alink.setAttribute('href', '#');
+                alink.innerHTML = alink.innerHTML + element;
+                var li = document.createElement('li');
+                li.setAttribute('class', 'item');
+                li.appendChild(alink);
+                ul.appendChild(li);
+            }
+        })();
+    });
+
+
+</script>
+
+<div class="row body myelement">
+    <div class="col-xs-2 left-side panel panel-default myelement">
+        <div class="dropdown myelement">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            Project
+                        </td>
+                        <td>
+                            <select class="selectpicker myelement">
+                            <option value="apple">QA</option>
+                            <option value="orange">PlayGround</option>
+                            <option value="pineapple">Claw</option>
+                            <option value="banana">WatchDogs</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Plan
+                        </td>
+                        <td>
+                            <select class="selectpicker myelement">
+                                <option value="apple">Release_01</option>
+                                <option value="orange">Release_01</option>
+                                <option value="pineapple">Release_01</option>
+                                <option value="banana">Release_01</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="#" data-toggle="collapse" class="testsuite myelement">
+            Test Suite Root
+        </a>
+        <div id="renderList">
+
+        </div>
+    </div>
+    <div class="col-xs-10 right-side panel panel-default myelement">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        Environment
+                    </td>
+                    <td>
+                        <select class="selectpicker myelement" >
+                            <option value="apple">Staging</option>
+                            <option value="orange">SIT</option>
+                            <option value="pineapple">QABox1</option>
+                            <option value="banana">QABox2</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div>
+                            <span class="myelement"> Group Name </span>
+                            <span> TestGroup </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="myelement">Select All</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-default myelement" type="button">
+                            Run Tests
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-hover table-condensed panel">
+            <thead class="well-lg panel-heading">
+                <tr>
+                    <th class="col-lg-1">ID</th>
+                    <th class="col-lg-1">Name</th>
+                    <th class="col-lg-1">TestCaseName</th>
+                    <th class="col-lg-1">AutomationStatus</th>
+                    <th class="col-lg-1">AnalyzedStatus</th>
+                    <th class="col-lg-1">PlanncedTC</th>
+                    <th class="col-lg-1">ExecutedTC</th>
+                    <th class="col-lg-1">MachineName</th>
+                    <th class="col-lg-1">Tester</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.TestSuites)
+                {
+                    <tr>
+                        <td class="col-lg-1">
+                            <a data-toggle="modal" data-target="#testcasemodal">
+                                @p.ID
+                            </a>
+                        </td>
+                        <td class="col-lg-1">@p.Name</td>
+                        <td class="col-lg-1">@p.TestCase</td>
+                        <td class="col-lg-1">@p.AutomationStatus</td>
+                        <td class="col-lg-1">@p.AnalyzedStatus</td>
+                        <td class="col-lg-1">@p.PlannedTestCases.ToString()</td>
+                        <td class="col-lg-1">@p.ExecutedTestCases.ToString()</td>
+                        <td class="col-lg-1">@p.MachineName</td>
+                        <td class="col-lg-1">@p.Tester</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("List", new { page = x }))
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="testcasemodal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Test Suite : Test Suite Name</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

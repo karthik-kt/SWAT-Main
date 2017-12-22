@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Firebug</name>
+    </assembly>
+    <members>
+        <member name="M:Firebug.console.Log(System.Object[])">
+            <summary>
+              Writes a message to the console. You may pass as many arguments as you'd like, and they will be joined together in a space-delimited line.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Log(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console. You may pass as many arguments as you'd like, and they will be joined together in a space-delimited line.      
+            </summary>
+            <param name="format">A string containing printf-like string substitution patterns.</param>
+        </member>
+        <member name="M:Firebug.console.Debug(System.Object[])">
+            <summary>
+              Writes a message to the console, including a hyperlink to the line where it was called.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Debug(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console, including a hyperlink to the line where it was called.
+            </summary>
+            <param name="format">A string containing printf-like string substitution patterns.</param>
+        </member>
+        <member name="M:Firebug.console.Info(System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "info" icon and color coding and a hyperlink to the line where it was called.
+            </summary>      
+        </member>
+        <member name="M:Firebug.console.Info(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "info" icon and color coding and a hyperlink to the line where it was called.
+            </summary>
+            <param name="format">A string containing printf-like string substitution patterns.</param>
+        </member>
+        <member name="M:Firebug.console.Warn(System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "warning" icon and color coding and a hyperlink to the line where it was called.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Warn(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "warning" icon and color coding and a hyperlink to the line where it was called.
+            </summary>
+            <param name="format">A string containing printf-like string substitution patterns.</param>
+        </member>
+        <member name="M:Firebug.console.Error(System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "error" icon and color coding and a hyperlink to the line where it was called.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Error(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console with the visual "error" icon and color coding and a hyperlink to the line where it was called.
+            </summary>
+            <param name="format">A string containing printf-like string substitution patterns.</param>
+        </member>
+        <member name="M:Firebug.console.Assert(System.Boolean)">
+            <summary>
+              Tests that an expression is true. If not, it will write a message to the console and throw an exception.
+            </summary>
+            <param name="expression">The boolean expression to test.</param>      
+        </member>
+        <member name="M:Firebug.console.Assert(System.Boolean,System.String)">
+            <summary>
+              Tests that an expression is true. If not, it will write a message to the console and throw an exception.
+            </summary>
+            <param name="expression">The boolean expression to test.</param>      
+        </member>
+        <member name="M:Firebug.console.Clear">
+            <summary>
+              Clears the console.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Dir(System.Object)">
+            <summary>
+              Prints an interactive listing of all properties of the object. This looks identical to the view that you would see in the DOM tab.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.DirXml(System.Object)">
+            <summary>
+              Prints the XML source tree of an HTML or XML element. This looks identical to the view that you would see in the HTML tab. You can click on any node to inspect it in the HTML tab.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Trace(System.String)">
+            <summary>
+              Prints an interactive stack trace of JavaScript execution at the point where it is called.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Group(System.String,System.Object[])">
+            <summary>
+              Writes a message to the console and opens a nested block to indent all future messages sent to the console. Call Console.GroupEnd() to close the block.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.GroupCollapsed(System.String,System.Object[])">
+            <summary>
+              Like console.group(), but the block is initially collapsed.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.GroupEnd">
+            <summary>
+              Closes the most recently opened block created by a call to Console.Group() or Console.GroupCollapsed()
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Time(System.String)">
+            <summary>
+              Creates a new timer under the given name. Call console.timeEnd(name) with the same name to stop the timer and print the time elapsed.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.TimeEnd(System.String)">
+            <summary>
+              Stops a timer created by a call to console.time(name) and writes the time elapsed.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.TimeStamp(System.String)">
+            <summary>
+              Creates a time stamp, which can be used together with HTTP traffic timing to measure when a certain piece of code was executed.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Profile">
+            <summary>
+              Turns on the JavaScript profiler. 
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Profile(System.String)">
+            <summary>
+              Turns on the JavaScript profiler. 
+            </summary>
+            <param name="title">The optional argument title would contain the text to be printed in the header of the profile report.</param>
+        </member>
+        <member name="M:Firebug.console.ProfileEnd">
+            <summary>
+              Turns off the JavaScript profiler and prints its report.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Count">
+            <summary>
+              Writes the number of times that the line of code where count was called was executed.       
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Count(System.String)">
+            <summary>
+              Writes the number of times that the line of code where count was called was executed. 
+            </summary>
+            <param name="title">The optional argument title will print a message in addition to the number of the count.</param>
+        </member>
+        <member name="M:Firebug.console.Exception(System.Object,System.Object[])">
+            <summary>
+              Prints an error message together with an interactive stack trace of JavaScript execution at the point where the exception occurred.
+            </summary>
+        </member>
+        <member name="M:Firebug.console.Table(System.Object)">
+            <summary>
+              Allows to log provided data using tabular layout. The method takes one required parameter that represents table-like data (array of arrays or list of objects). The optional columns parameter can be used to specify columns and/or properties to be logged (see more at softwareishard.com).
+            </summary>
+            <param name="data">The table-like data (array of arrays or list of objects)</param>
+        </member>
+        <member name="M:Firebug.console.Table(System.Object,System.Object)">
+            <summary>
+              Allows to log provided data using tabular layout. The method takes one required parameter that represents table-like data (array of arrays or list of objects). The optional columns parameter can be used to specify columns and/or properties to be logged (see more at softwareishard.com).
+            </summary>
+            <param name="data">The table-like data (array of arrays or list of objects)</param>
+            <param name="columns">Can be used to specify columns and/or properties to be logged (see more at softwareishard.com)</param>
+        </member>
+    </members>
+</doc>
